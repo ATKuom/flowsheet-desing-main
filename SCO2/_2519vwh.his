@@ -1,0 +1,1047 @@
+
+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+ + +                                                                         + +
+ + +                      ASPEN PLUS CALCULATION HISTORY                     + +
+ + +                                                                         + +
+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+
+ ASPEN PLUS IS A TRADEMARK OF           HOTLINE:
+ ASPEN TECHNOLOGY, INC.                 U.S.A. 888/996-7100
+ 781/221-6400                           EUROPE (44) 1189-226555
+
+ PLATFORM: WIN-X64                                       MAY 28, 2025        
+ VERSION: 39.0   Build 116                               WEDNESDAY   
+ INSTALLATION:                                           4:48:46 P.M.        
+
+ THIS COPY OF ASPEN PLUS LICENSED TO THE UNIVERSITY OF MANCHE        
+
+
+      ASPEN PLUS (R) IS A PROPRIETARY PRODUCT OF ASPEN TECHNOLOGY, INC.
+      (ASPENTECH), AND MAY BE USED ONLY UNDER AGREEMENT WITH ASPENTECH.
+      RESTRICTED RIGHTS LEGEND:  USE, REPRODUCTION, OR DISCLOSURE BY THE
+      U.S. GOVERNMENT IS SUBJECT TO RESTRICTIONS SET FORTH IN 
+      (i) FAR 52.227-14, Alt. III, (ii) FAR 52.227-19, (iii) DFARS 
+      252.227-7013(c)(1)(ii), or (iv) THE ACCOMPANYING LICENSE AGREEMENT,
+      AS APPLICABLE. FOR PURPOSES OF THE FAR, THIS SOFTWARE SHALL BE DEEMED
+      TO BE "UNPUBLISHED" AND LICENSED WITH DISCLOSURE PROHIBITIONS.
+      CONTRACTOR/SUBCONTRACTOR: ASPEN TECHNOLOGY, INC. 20 CROSBY DRIVE,
+      BEDFORD, MA 01730.
+ *** INPUT SUMMARY ***
+
+ >>CURRENT RUN
+
+   ORIGINAL RUN                           MAY 28, 2025        
+   4:48:46 P.M.                           WEDNESDAY   
+   INPUT FILE: _2519vwh.inm
+   RUN ID : _2519vwh
+          1    ;
+          2    ;Input file created by Aspen Plus Rel. 39.0 at 16:48:46 Wed May 28, 2025
+          3    ;Directory c:\Users\m85830ak\Python\flowsheet-desing-main\SCO2  Runid SCO2
+          4    ;
+          5
+          6
+          7    DYNAMICS
+          8        DYNAMICS RESULTS=ON
+          9
+         10    IN-UNITS SI PRESSURE=Pa TEMPERATURE=C DELTA-T=C PDROP='N/sqm'  &
+         11            SHORT-LENGTH=mm
+         12
+         13    DEF-STREAMS CONVEN ALL
+         14
+         15    SIM-OPTIONS MASS-BAL-CHE=YES ADSCNVG=YES
+         16
+         17    MODEL-OPTION
+         18
+         19    DESCRIPTION "
+         20        Polymers Batch Process with Metric Units :
+         21        K, atm, kg/hr, kmol/hr, cal/sec, l/min.
+         22
+         23        Property Method: None
+         24
+         25        Flow basis for input: Mass
+         26
+         27        Stream report composition: Mass flow
+         28        "
+         29
+         30    DATABANKS 'APV121 POLYMER' / 'APV121 SEGMENT' /  &
+         31            'APV121 INITIATO' / 'APV121 PURE39' / NOASPENPCD
+         32
+         33    PROP-SOURCES 'APV121 POLYMER' / 'APV121 SEGMENT' /  &
+         34            'APV121 INITIATO' / 'APV121 PURE39'
+         35
+         36    COMPONENTS
+         37        CO2 CO2
+         38
+         39    SOLVE
+         40        PARAM PROCESS=CONTINUOUS
+         41        RUN-MODE MODE=SIM
+         42
+         43    FLOWSHEET
+         44        BLOCK T1 IN=FEED OUT=T1OUT
+         45        BLOCK HX1 IN=T1OUT S1OUT2 OUT=HX1HOUT HX1COUT
+         46        BLOCK COOLER1 IN=HX1HOUT OUT=C1OUT
+         47        BLOCK CMP1 IN=C1OUT OUT=CMP1OUT
+         48        BLOCK S1 IN=CMP1OUT OUT=S1OUT1 S1OUT2
+         49        BLOCK HEATER1 IN=S1OUT1 OUT=H1OUT
+         50        BLOCK MIXER1 IN=H1OUT HX1COUT OUT=M1OUT
+         51        BLOCK HEATER2 IN=M1OUT OUT=H2OUT
+         52
+         53    PROPERTIES REFPROP
+         54        PROPERTIES IDEAL
+         55
+         56    STREAM FEED
+         57        SUBSTREAM MIXED TEMP=407.72 PRES=29950000.
+         58        MASS-FLOW CO2 86.67
+         59
+         60    BLOCK MIXER1 MIXER
+         61        PARAM
+         62
+         63    BLOCK S1 FSPLIT
+         64        FRAC S1OUT1 0.01
+         65
+         66    BLOCK COOLER1 HEATER
+         67        PARAM TEMP=32. PRES=7715000. DPPARMOPT=NO
+         68
+         69    BLOCK HEATER1 HEATER
+         70        PARAM TEMP=407.86 PRES=30000000. DPPARMOPT=NO
+         71
+         72    BLOCK HEATER2 HEATER
+         73        PARAM TEMP=407.72 PRES=29950000. DPPARMOPT=NO
+         74
+         75    BLOCK HX1 HEATX
+         76        PARAM DELT-HOT=9.77
+         77        FEEDS HOT=T1OUT COLD=S1OUT2
+         78        OUTLETS-HOT HX1HOUT
+         79        OUTLETS-COLD HX1COUT
+         80        HOT-SIDE DPPARMOPT=NO
+         81        COLD-SIDE DPPARMOPT=NO
+         82        TQ-PARAM CURVE=YES
+         83
+         84    BLOCK CMP1 COMPR
+         85        PARAM TYPE=ISENTROPIC PRES=30000000. SEFF=0.82 NPHASE=2  &
+         86            SB-MAXIT=30 SB-TOL=0.0001 MODEL-TYPE=COMPRESSOR
+         87
+         88    BLOCK T1 COMPR
+         89        PARAM TYPE=ISENTROPIC PRES=7865000. SEFF=0.85 NPHASE=2  &
+         90            SB-MAXIT=30 SB-TOL=0.0001 MODEL-TYPE=TURBINE
+         91        PERFOR-PARAM CALC-SPEED=NO
+         92
+         93    EO-CONV-OPTI
+         94
+         95    STREAM-REPOR MOLEFLOW MASSFLOW
+         96
+         97    PROPERTY-REP PCES
+         98    ;
+         99    ;
+        100    ;
+        101    ;
+        102    ;
+ *** INPUT TRANSLATOR MESSAGES ***
+
+  *** THIS RUN USES THE PROPERTIES ENTERPRISE DATABASE ***
+      SQLLOCALDB.APESV121 : (DATAVERSION - 39.0.0.5)                          
+      SQLLOCALDB.APV121 : (DATAVERSION - 39.0.0.3)                            
+      SQLLOCALDB.FACTV121 : (DATAVERSION - 39.0.0.3)                          
+      SQLLOCALDB.NISTV121 : (DATAVERSION - 39.0.0.3)                          
+ 
+ 
+
+ PDF updated                                                                      TIME =      0.31
+
+ *** CALCULATION TRACE ***
+
+
+ *** FLOWSHEET ANALYSIS MESSAGES ***
+
+ FLOWSHEET CONNECTIVITY BY STREAMS       
+
+   STREAM     SOURCE     DEST           STREAM     SOURCE     DEST
+   FEED       ----       T1             T1OUT      T1         HX1     
+   HX1HOUT    HX1        COOLER1        HX1COUT    HX1        MIXER1  
+   C1OUT      COOLER1    CMP1           CMP1OUT    CMP1       S1      
+   S1OUT1     S1         HEATER1        S1OUT2     S1         HX1     
+   H1OUT      HEATER1    MIXER1         M1OUT      MIXER1     HEATER2 
+   H2OUT      HEATER2    ----                                         
+
+ FLOWSHEET CONNECTIVITY BY BLOCKS        
+
+   BLOCK        INLETS                         OUTLETS
+   T1           FEED                           T1OUT                       
+   HX1          T1OUT S1OUT2                   HX1HOUT HX1COUT             
+   COOLER1      HX1HOUT                        C1OUT                       
+   CMP1         C1OUT                          CMP1OUT                     
+   S1           CMP1OUT                        S1OUT1 S1OUT2               
+   HEATER1      S1OUT1                         H1OUT                       
+   MIXER1       H1OUT HX1COUT                  M1OUT                       
+   HEATER2      M1OUT                          H2OUT                       
+
+      BLOCK $OLVER01 (METHOD: WEGSTEIN) HAS BEEN DEFINED TO CONVERGE
+               STREAMS: S1OUT2
+
+      COMPUTATION ORDER FOR THE FLOWSHEET IS:
+      T1 
+      $OLVER01 HX1 COOLER1 CMP1 S1 
+      (RETURN $OLVER01) 
+      HEATER1 MIXER1 HEATER2 
+
+Calculations begin                                                              time      0.02
+
+
+ SIMULATION CALCULATIONS BEGIN                                                    TIME =      0.02
+
+      ENTHALPY CALCULATION FOR INLET STREAM FEED OF BLOCK T1                      TIME =      0.02
+      KODE = 2  NTRIAL =   0  T = 680.8700  P = 2.995000E+07  V =  1.00000      Q =  0.00000    
+
+      UOS BLOCK T1       MODEL: COMPR                                             TIME =      0.02
+      OUTLET TEMP =   545.7       OUTLET PRES =  0.7865E+07   INDICATED HP = -0.1100E+08   BRAKE HP = -0.1100E+08
+      ISENTR TEMP =   525.9      CALC ISENTR EFF =  0.8500      ISENTR HP = -0.1294E+08  HP = -0.2166E+08
+
+      CONVERGENCE BLOCK $OLVER01  METHOD: WEGSTEIN                                TIME =      0.02
+      ITER   0 For Tear Streams: S1OUT2
+
+      UOS BLOCK HX1      MODEL: HEATX                                             TIME =      0.02
+
+  *   WARNING WHILE EXECUTING UNIT OPERATIONS BLOCK: "HX1" (MODEL: "HEATX")     
+                                                               (UHE02I.1)       
+      AT LEAST ONE FEED HAS ZERO FLOW                                           
+      BLOCK BYPASSED                                                            
+
+      UOS BLOCK COOLER1  MODEL: HEATER                                            TIME =      0.02
+      KODE = 2  NTRIAL =   0  T = 305.1500  P = 7.715000E+06  V =  1.00000      Q =-3.611061E+07
+
+      UOS BLOCK CMP1     MODEL: COMPR                                             TIME =      0.02
+      OUTLET TEMP =   349.8       OUTLET PRES =  0.3000E+08   INDICATED HP =  0.3327E+07   BRAKE HP =  0.3327E+07
+      ISENTR TEMP =   346.5      CALC ISENTR EFF =  0.8200      ISENTR HP =  0.2728E+07  HP =  0.6551E+07
+
+      UOS BLOCK S1       MODEL: FSPLIT                                            TIME =      0.02
+      SPLIT FRACTIONS:  0.10000D-01    0.99000D+00
+
+      CONVERGENCE BLOCK $OLVER01  METHOD: WEGSTEIN                                TIME =      0.02
+      ITER   1 For Tear Streams: S1OUT2
+
+      --FLASH TEAR STREAM S1OUT2  
+      NO. TEMP ITER =    1     TEMP =  349.843    
+      KODE = 1  NTRIAL =   0  T = 349.8428  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+
+  LOOP $OLVER01 ITER    1:   2 VARS NOT CONVERGED, MAX ERR/TOL     0.10000E+07    TIME =      0.02
+
+      UOS BLOCK HX1      MODEL: HEATX                                             TIME =      0.02
+      SPECIFICATION: HOT APPROACH TEMP     9.7700    
+      FLOW TYPE:     COUNTERCURRENT  
+      HOT:  TIN=  545.73  PIN=0.78650E+07   TOUT=  359.61  POUT=0.78650E+07
+      COLD: TIN=  349.84  PIN=0.30000E+08   TOUT=  470.22  POUT=0.30000E+08
+                              DUTY=0.19040E+08
+
+      UOS BLOCK COOLER1  MODEL: HEATER                                            TIME =      0.02
+      KODE = 2  NTRIAL =   0  T = 305.1500  P = 7.715000E+06  V =  1.00000      Q =-1.707056E+07
+
+      UOS BLOCK CMP1     MODEL: COMPR                                             TIME =      0.03
+      OUTLET TEMP =   349.8       OUTLET PRES =  0.3000E+08   INDICATED HP =  0.3327E+07   BRAKE HP =  0.3327E+07
+      ISENTR TEMP =   346.5      CALC ISENTR EFF =  0.8200      ISENTR HP =  0.2728E+07  HP =  0.6551E+07
+
+      UOS BLOCK S1       MODEL: FSPLIT                                            TIME =      0.03
+      SPLIT FRACTIONS:  0.10000D-01    0.99000D+00
+
+      CONVERGENCE BLOCK $OLVER01  METHOD: WEGSTEIN                                TIME =      0.03
+      ITER   2 For Tear Streams: S1OUT2
+
+  LOOP $OLVER01 ITER    2:     *** CONVERGED *** , MAX ERR/TOL      0.0000        TIME =      0.03
+
+      UOS BLOCK HEATER1  MODEL: HEATER                                            TIME =      0.03
+      KODE = 2  NTRIAL =   0  T = 681.0100  P = 3.000000E+07  V =  1.00000      Q =  437933.    
+
+      UOS BLOCK MIXER1   MODEL: MIXER                                             TIME =      0.03
+      NO. TEMP ITER =   12     TEMP =  472.073    
+      KODE = 1  NTRIAL =   0  T = 472.0731  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+
+      UOS BLOCK HEATER2  MODEL: HEATER                                            TIME =      0.03
+      KODE = 2  NTRIAL =   0  T = 680.8700  P = 2.995000E+07  V =  1.00000      Q = 2.430424E+07
+
+      GENERATING RESULTS FOR UOS BLOCK HX1      MODEL: HEATX                      TIME =      0.03
+      SPECIFICATION: HOT APPROACH TEMP     9.7700    
+      FLOW TYPE:     COUNTERCURRENT  
+      HOT:  TIN=  545.73  PIN=0.78650E+07   TOUT=  359.61  POUT=0.78650E+07
+      COLD: TIN=  349.84  PIN=0.30000E+08   TOUT=  470.22  POUT=0.30000E+08
+      AREA= 696.81           DUTY=0.19040E+08       FT=1.00000
+
+      BEGIN HEATX TQ-CURVE CALCULATIONS FOR BLOCK HX1     
+
+      BEGIN COLD-TQCURVE INLET   
+      NO. TEMP ITER =   12     TEMP =  470.225    
+      KODE = 1  NTRIAL =   0  T = 470.2249  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  463.410    
+      KODE = 1  NTRIAL =   0  T = 463.4104  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  456.720    
+      KODE = 1  NTRIAL =   0  T = 456.7202  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  450.158    
+      KODE = 1  NTRIAL =   0  T = 450.1576  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  443.725    
+      KODE = 1  NTRIAL =   0  T = 443.7248  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  437.423    
+      KODE = 1  NTRIAL =   0  T = 437.4229  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  431.251    
+      KODE = 1  NTRIAL =   0  T = 431.2513  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  425.208    
+      KODE = 1  NTRIAL =   0  T = 425.2082  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  419.290    
+      KODE = 1  NTRIAL =   0  T = 419.2898  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  413.491    
+      KODE = 1  NTRIAL =   0  T = 413.4909  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  407.805    
+      KODE = 1  NTRIAL =   0  T = 407.8049  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  402.224    
+      KODE = 1  NTRIAL =   0  T = 402.2236  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  396.738    
+      KODE = 1  NTRIAL =   0  T = 396.7379  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  391.338    
+      KODE = 1  NTRIAL =   0  T = 391.3380  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  386.013    
+      KODE = 1  NTRIAL =   0  T = 386.0134  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  380.753    
+      KODE = 1  NTRIAL =   0  T = 380.7529  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    9     TEMP =  375.545    
+      KODE = 1  NTRIAL =   0  T = 375.5449  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    9     TEMP =  370.377    
+      KODE = 1  NTRIAL =   0  T = 370.3769  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    8     TEMP =  365.236    
+      KODE = 1  NTRIAL =   0  T = 365.2359  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    7     TEMP =  360.108    
+      KODE = 1  NTRIAL =   0  T = 360.1084  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    6     TEMP =  354.981    
+      KODE = 1  NTRIAL =   0  T = 354.9814  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    6     TEMP =  349.843    
+      KODE = 1  NTRIAL =   0  T = 349.8428  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+
+      BEGIN HOT-TQCURVE  INLET   
+      NO. TEMP ITER =   12     TEMP =  545.732    
+      KODE = 1  NTRIAL =   0  T = 545.7319  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  536.459    
+      KODE = 1  NTRIAL =   0  T = 536.4587  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  527.179    
+      KODE = 1  NTRIAL =   0  T = 527.1794  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  517.897    
+      KODE = 1  NTRIAL =   0  T = 517.8972  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  508.616    
+      KODE = 1  NTRIAL =   0  T = 508.6158  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  499.339    
+      KODE = 1  NTRIAL =   0  T = 499.3392  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  490.073    
+      KODE = 1  NTRIAL =   0  T = 490.0726  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  480.821    
+      KODE = 1  NTRIAL =   0  T = 480.8214  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  471.593    
+      KODE = 1  NTRIAL =   0  T = 471.5926  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  462.394    
+      KODE = 1  NTRIAL =   0  T = 462.3937  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  453.234    
+      KODE = 1  NTRIAL =   0  T = 453.2338  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  444.123    
+      KODE = 1  NTRIAL =   0  T = 444.1235  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  435.075    
+      KODE = 1  NTRIAL =   0  T = 435.0747  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  426.102    
+      KODE = 1  NTRIAL =   0  T = 426.1017  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  417.221    
+      KODE = 1  NTRIAL =   0  T = 417.2207  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  408.451    
+      KODE = 1  NTRIAL =   0  T = 408.4506  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  399.813    
+      KODE = 1  NTRIAL =   0  T = 399.8129  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  391.333    
+      KODE = 1  NTRIAL =   0  T = 391.3325  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  383.038    
+      KODE = 1  NTRIAL =   0  T = 383.0380  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    9     TEMP =  374.961    
+      KODE = 1  NTRIAL =   0  T = 374.9614  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    8     TEMP =  367.139    
+      KODE = 1  NTRIAL =   0  T = 367.1394  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    8     TEMP =  359.613    
+      KODE = 1  NTRIAL =   0  T = 359.6128  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+
+      BEGIN COLD-TQCURVE INLET   
+
+      BEGIN HOT-TQCURVE  INLET   
+      END HEATX TQ-CURVE CALCULATIONS FOR BLOCK HX1     
+
+      GENERATING RESULTS FOR UOS BLOCK COOLER1  MODEL: HEATER                     TIME =      0.03
+
+      GENERATING RESULTS FOR UOS BLOCK HEATER1  MODEL: HEATER                     TIME =      0.03
+
+      GENERATING RESULTS FOR UOS BLOCK HEATER2  MODEL: HEATER                     TIME =      0.03
+
+      BEGIN HEATX TQ-CURVE REPORT FOR BLOCK HX1     
+
+      BEGIN COLD-TQCURVE INLET   
+
+      BEGIN HOT-TQCURVE  INLET   
+      END HEATX TQ-CURVE REPORT FOR BLOCK HX1     
+<reset scope>
+<reset scope>
+<reset scope>
+<reset scope>
+<reset scope>
+<reset scope>
+<reset scope>
+<reset scope>
+<reset scope>
+<reset scope>
+
+
+*** INPUT SPECIFICATION MESSAGES ***
+
+ FLOWSHEET    IS  NEW 05/28/2025   16:53:51:99 
+ FLOWSHEET
+     BLOCK T1 IN=FEED OUT=T1OUT S4
+     BLOCK HX1 IN=T1OUT S1OUT2 OUT=HX1HOUT HX1COUT
+     BLOCK COOLER1 IN=HX1HOUT OUT=C1OUT S7
+     BLOCK CMP1 IN=C1OUT OUT=CMP1OUT S5
+     BLOCK S1 IN=CMP1OUT OUT=S1OUT1 S1OUT2
+     BLOCK HEATER1 IN=S1OUT1 OUT=H1OUT S8
+     BLOCK MIXER1 IN=H1OUT HX1COUT OUT=M1OUT
+     BLOCK HEATER2 IN=M1OUT OUT=H2OUT S6
+
+ DEF-STREAMS  IS  NEW 05/28/2025   16:53:51:99 
+ DEF-STREAMS HEAT S6
+
+ DEF-STREAMS  IS  NEW 05/28/2025   16:53:51:99 
+ DEF-STREAMS HEAT S7
+
+ DEF-STREAMS  IS  NEW 05/28/2025   16:53:51:99 
+ DEF-STREAMS HEAT S8
+
+ DEF-STREAMS  IS  NEW 05/28/2025   16:53:51:99 
+ DEF-STREAMS WORK S4
+
+ DEF-STREAMS  IS  NEW 05/28/2025   16:53:51:99 
+ DEF-STREAMS WORK S5
+
+ PDF updated                                                                      TIME =    304.99
+ THIS COPY OF ASPEN PLUS LICENSED TO THE UNIVERSITY OF MANCHE        
+ 
+ 
+ *** FLOWSHEET ANALYSIS MESSAGES ***
+
+ FLOWSHEET CONNECTIVITY BY STREAMS       
+
+   STREAM     SOURCE     DEST           STREAM     SOURCE     DEST
+   FEED       ----       T1             T1OUT      T1         HX1     
+   HX1HOUT    HX1        COOLER1        HX1COUT    HX1        MIXER1  
+   C1OUT      COOLER1    CMP1           CMP1OUT    CMP1       S1      
+   S1OUT1     S1         HEATER1        S1OUT2     S1         HX1     
+   H1OUT      HEATER1    MIXER1         M1OUT      MIXER1     HEATER2 
+   H2OUT      HEATER2    ----           S4         T1         ----    
+   S7         COOLER1    ----           S5         CMP1       ----    
+   S8         HEATER1    ----           S6         HEATER2    ----    
+
+ FLOWSHEET CONNECTIVITY BY BLOCKS        
+
+   BLOCK        INLETS                         OUTLETS
+   T1           FEED                           T1OUT S4                    
+   HX1          T1OUT S1OUT2                   HX1HOUT HX1COUT             
+   COOLER1      HX1HOUT                        C1OUT S7                    
+   CMP1         C1OUT                          CMP1OUT S5                  
+   S1           CMP1OUT                        S1OUT1 S1OUT2               
+   HEATER1      S1OUT1                         H1OUT S8                    
+   MIXER1       H1OUT HX1COUT                  M1OUT                       
+   HEATER2      M1OUT                          H2OUT S6                    
+
+      BLOCK $OLVER01 (METHOD: WEGSTEIN) HAS BEEN DEFINED TO CONVERGE
+               STREAMS: S1OUT2
+
+      COMPUTATION ORDER FOR THE FLOWSHEET IS:
+      T1 
+      $OLVER01 HX1 COOLER1 CMP1 S1 
+      (RETURN $OLVER01) 
+      HEATER1 MIXER1 HEATER2 
+
+
+Calculations begin                                                              time    305.01
+
+
+      UOS BLOCK T1       MODEL: COMPR                                             TIME =    305.01
+      OUTLET TEMP =   545.7       OUTLET PRES =  0.7865E+07   INDICATED HP = -0.1100E+08   BRAKE HP = -0.1100E+08
+      ISENTR TEMP =   525.9      CALC ISENTR EFF =  0.8500      ISENTR HP = -0.1294E+08  HP = -0.2166E+08
+
+      CONVERGENCE BLOCK $OLVER01  METHOD: WEGSTEIN                                TIME =    305.01
+      ITER   0 For Tear Streams: S1OUT2
+
+      UOS BLOCK HX1      MODEL: HEATX                                             TIME =    305.01
+      SPECIFICATION: HOT APPROACH TEMP     9.7700    
+      FLOW TYPE:     COUNTERCURRENT  
+      HOT:  TIN=  545.73  PIN=0.78650E+07   TOUT=  359.61  POUT=0.78650E+07
+      COLD: TIN=  349.84  PIN=0.30000E+08   TOUT=  470.22  POUT=0.30000E+08
+                              DUTY=0.19040E+08
+
+      UOS BLOCK COOLER1  MODEL: HEATER                                            TIME =    305.01
+      KODE = 2  NTRIAL =   0  T = 305.1500  P = 7.715000E+06  V =  1.00000      Q =-1.707056E+07
+
+      UOS BLOCK CMP1     MODEL: COMPR                                             TIME =    305.01
+      OUTLET TEMP =   352.9       OUTLET PRES =  0.3000E+08   INDICATED HP =  0.3870E+07   BRAKE HP =  0.3870E+07
+      POLYTROPIC EFFICIENCY =  0.7200    
+      ASME FAC =  0.9912    
+
+      UOS BLOCK S1       MODEL: FSPLIT                                            TIME =    305.02
+      SPLIT FRACTIONS:  0.10000D-01    0.99000D+00
+
+      CONVERGENCE BLOCK $OLVER01  METHOD: WEGSTEIN                                TIME =    305.02
+      ITER   1 For Tear Streams: S1OUT2
+
+      --FLASH TEAR STREAM S1OUT2  
+      NO. TEMP ITER =    1     TEMP =  352.894    
+      KODE = 1  NTRIAL =   0  T = 352.8935  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+
+  LOOP $OLVER01 ITER    1:   1 VARS NOT CONVERGED, MAX ERR/TOL      6.8861        TIME =    305.02
+
+      UOS BLOCK HX1      MODEL: HEATX                                             TIME =    305.02
+      SPECIFICATION: HOT APPROACH TEMP     9.7700    
+      FLOW TYPE:     COUNTERCURRENT  
+      HOT:  TIN=  545.73  PIN=0.78650E+07   TOUT=  362.66  POUT=0.78650E+07
+      COLD: TIN=  352.89  PIN=0.30000E+08   TOUT=  471.48  POUT=0.30000E+08
+                              DUTY=0.18668E+08
+
+      UOS BLOCK COOLER1  MODEL: HEATER                                            TIME =    305.02
+      KODE = 2  NTRIAL =   0  T = 305.1500  P = 7.715000E+06  V =  1.00000      Q =-1.744270E+07
+
+      UOS BLOCK CMP1     MODEL: COMPR                                             TIME =    305.02
+      OUTLET TEMP =   352.9       OUTLET PRES =  0.3000E+08   INDICATED HP =  0.3870E+07   BRAKE HP =  0.3870E+07
+      POLYTROPIC EFFICIENCY =  0.7200    
+      ASME FAC =  0.9912    
+
+      UOS BLOCK S1       MODEL: FSPLIT                                            TIME =    305.02
+      SPLIT FRACTIONS:  0.10000D-01    0.99000D+00
+
+      CONVERGENCE BLOCK $OLVER01  METHOD: WEGSTEIN                                TIME =    305.02
+      ITER   2 For Tear Streams: S1OUT2
+
+  LOOP $OLVER01 ITER    2:     *** CONVERGED *** , MAX ERR/TOL      0.0000        TIME =    305.02
+
+      UOS BLOCK HEATER1  MODEL: HEATER                                            TIME =    305.02
+      KODE = 2  NTRIAL =   0  T = 681.0100  P = 3.000000E+07  V =  1.00000      Q =  432500.    
+
+      UOS BLOCK MIXER1   MODEL: MIXER                                             TIME =    305.02
+      NO. TEMP ITER =   12     TEMP =  473.326    
+      KODE = 1  NTRIAL =   0  T = 473.3255  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+
+      UOS BLOCK HEATER2  MODEL: HEATER                                            TIME =    305.02
+      KODE = 2  NTRIAL =   0  T = 680.8700  P = 2.995000E+07  V =  1.00000      Q = 2.413844E+07
+
+      GENERATING RESULTS FOR UOS BLOCK HX1      MODEL: HEATX                      TIME =    305.02
+      SPECIFICATION: HOT APPROACH TEMP     9.7700    
+      FLOW TYPE:     COUNTERCURRENT  
+      HOT:  TIN=  545.73  PIN=0.78650E+07   TOUT=  362.66  POUT=0.78650E+07
+      COLD: TIN=  352.89  PIN=0.30000E+08   TOUT=  471.48  POUT=0.30000E+08
+      AREA= 690.80           DUTY=0.18668E+08       FT=1.00000
+
+      BEGIN HEATX TQ-CURVE CALCULATIONS FOR BLOCK HX1     
+
+      BEGIN COLD-TQCURVE INLET   
+      NO. TEMP ITER =   12     TEMP =  471.484    
+      KODE = 1  NTRIAL =   0  T = 471.4842  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  464.780    
+      KODE = 1  NTRIAL =   0  T = 464.7798  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  458.194    
+      KODE = 1  NTRIAL =   0  T = 458.1942  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  451.731    
+      KODE = 1  NTRIAL =   0  T = 451.7306  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  445.391    
+      KODE = 1  NTRIAL =   0  T = 445.3915  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  439.178    
+      KODE = 1  NTRIAL =   0  T = 439.1779  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  433.090    
+      KODE = 1  NTRIAL =   0  T = 433.0900  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  427.126    
+      KODE = 1  NTRIAL =   0  T = 427.1263  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  421.284    
+      KODE = 1  NTRIAL =   0  T = 421.2837  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  415.558    
+      KODE = 1  NTRIAL =   0  T = 415.5580  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  409.943    
+      KODE = 1  NTRIAL =   0  T = 409.9432  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  404.432    
+      KODE = 1  NTRIAL =   0  T = 404.4322  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  399.017    
+      KODE = 1  NTRIAL =   0  T = 399.0166  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  393.688    
+      KODE = 1  NTRIAL =   0  T = 393.6876  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  388.435    
+      KODE = 1  NTRIAL =   0  T = 388.4354  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  383.250    
+      KODE = 1  NTRIAL =   0  T = 383.2498  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  378.120    
+      KODE = 1  NTRIAL =   0  T = 378.1201  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    9     TEMP =  373.035    
+      KODE = 1  NTRIAL =   0  T = 373.0348  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    8     TEMP =  367.982    
+      KODE = 1  NTRIAL =   0  T = 367.9821  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    8     TEMP =  362.949    
+      KODE = 1  NTRIAL =   0  T = 362.9492  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    7     TEMP =  357.924    
+      KODE = 1  NTRIAL =   0  T = 357.9237  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    6     TEMP =  352.894    
+      KODE = 1  NTRIAL =   0  T = 352.8935  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+
+      BEGIN HOT-TQCURVE  INLET   
+      NO. TEMP ITER =   12     TEMP =  545.732    
+      KODE = 1  NTRIAL =   0  T = 545.7319  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  536.640    
+      KODE = 1  NTRIAL =   0  T = 536.6400  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  527.542    
+      KODE = 1  NTRIAL =   0  T = 527.5422  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  518.442    
+      KODE = 1  NTRIAL =   0  T = 518.4415  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  509.341    
+      KODE = 1  NTRIAL =   0  T = 509.3413  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  500.245    
+      KODE = 1  NTRIAL =   0  T = 500.2454  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  491.159    
+      KODE = 1  NTRIAL =   0  T = 491.1586  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  482.086    
+      KODE = 1  NTRIAL =   0  T = 482.0860  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  473.034    
+      KODE = 1  NTRIAL =   0  T = 473.0338  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  464.009    
+      KODE = 1  NTRIAL =   0  T = 464.0093  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  455.021    
+      KODE = 1  NTRIAL =   0  T = 455.0206  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  446.077    
+      KODE = 1  NTRIAL =   0  T = 446.0774  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  437.191    
+      KODE = 1  NTRIAL =   0  T = 437.1908  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  428.374    
+      KODE = 1  NTRIAL =   0  T = 428.3736  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  419.641    
+      KODE = 1  NTRIAL =   0  T = 419.6406  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  411.009    
+      KODE = 1  NTRIAL =   0  T = 411.0090  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  402.498    
+      KODE = 1  NTRIAL =   0  T = 402.4984  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  394.131    
+      KODE = 1  NTRIAL =   0  T = 394.1311  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  385.933    
+      KODE = 1  NTRIAL =   0  T = 385.9330  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  377.933    
+      KODE = 1  NTRIAL =   0  T = 377.9330  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    9     TEMP =  370.164    
+      KODE = 1  NTRIAL =   0  T = 370.1643  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    8     TEMP =  362.664    
+      KODE = 1  NTRIAL =   0  T = 362.6635  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+
+      BEGIN COLD-TQCURVE INLET   
+
+      BEGIN HOT-TQCURVE  INLET   
+      END HEATX TQ-CURVE CALCULATIONS FOR BLOCK HX1     
+
+      BEGIN HEATX TQ-CURVE REPORT FOR BLOCK HX1     
+
+      BEGIN COLD-TQCURVE INLET   
+
+      BEGIN HOT-TQCURVE  INLET   
+      END HEATX TQ-CURVE REPORT FOR BLOCK HX1     
+
+
+*** INPUT SPECIFICATION MESSAGES ***
+
+ CHANGES WERE MADE TO IN-UNITS     05/28/2025   16:56:18:99 
+ IN-UNITS SI POWER=MW PRESSURE=Pa TEMPERATURE=C DELTA-T=C  &
+         WORK=kJ PDROP=Pa SHORT-LENGTH=mm
+
+ CHANGES WERE MADE TO STREAM       FEED     05/28/2025   16:56:18:99 
+ STREAM FEED
+     SUBSTREAM MIXED TEMP=407.7200000 PRES=2.99500000E+7
+     MASS-FLOW CO2 86.67000000
+
+ DEF-STREAMS  IS GENERATED BECAUSE OF OTHER CHANGES 05/28/2025   16:56:18:99 
+ DEF-STREAMS HEAT S6
+
+ DEF-STREAMS  IS GENERATED BECAUSE OF OTHER CHANGES 05/28/2025   16:56:18:99 
+ DEF-STREAMS HEAT S7
+
+ DEF-STREAMS  IS GENERATED BECAUSE OF OTHER CHANGES 05/28/2025   16:56:18:99 
+ DEF-STREAMS HEAT S8
+
+ DEF-STREAMS  IS GENERATED BECAUSE OF OTHER CHANGES 05/28/2025   16:56:18:99 
+ DEF-STREAMS WORK S4
+
+ DEF-STREAMS  IS GENERATED BECAUSE OF OTHER CHANGES 05/28/2025   16:56:18:99 
+ DEF-STREAMS WORK S5
+
+ TITLE        IS  NEW 05/28/2025   16:56:18:99 
+ TITLE
+
+ OUT-UNITS    IS  NEW 05/28/2025   16:56:18:99 
+ OUT-UNITS SI POWER=MW PRESSURE=Pa TEMPERATURE=C DELTA-T=C  &
+         WORK=kJ PDROP=Pa SHORT-LENGTH=mm
+
+ PDF updated                                                                      TIME =    452.01
+ THIS COPY OF ASPEN PLUS LICENSED TO THE UNIVERSITY OF MANCHE        
+ 
+ 
+
+
+Calculations begin                                                              time    452.02
+
+
+      ENTHALPY CALCULATION FOR INLET STREAM FEED OF BLOCK T1                      TIME =    452.02
+      KODE = 2  NTRIAL =   0  T = 680.8700  P = 2.995000E+07  V =  1.00000      Q =  0.00000    
+
+      UOS BLOCK T1       MODEL: COMPR                                             TIME =    452.02
+      OUTLET TEMP =   545.7       OUTLET PRES =  0.7865E+07   INDICATED HP = -0.1100E+08   BRAKE HP = -0.1100E+08
+      ISENTR TEMP =   525.9      CALC ISENTR EFF =  0.8500      ISENTR HP = -0.1294E+08  HP = -0.2166E+08
+
+      CONVERGENCE BLOCK $OLVER01  METHOD: WEGSTEIN                                TIME =    452.02
+      ITER   0 For Tear Streams: S1OUT2
+
+      UOS BLOCK HX1      MODEL: HEATX                                             TIME =    452.02
+      SPECIFICATION: HOT APPROACH TEMP     9.7700    
+      FLOW TYPE:     COUNTERCURRENT  
+      HOT:  TIN=  545.73  PIN=0.78650E+07   TOUT=  362.66  POUT=0.78650E+07
+      COLD: TIN=  352.89  PIN=0.30000E+08   TOUT=  471.48  POUT=0.30000E+08
+                              DUTY=0.18668E+08
+
+      UOS BLOCK COOLER1  MODEL: HEATER                                            TIME =    452.02
+      KODE = 2  NTRIAL =   0  T = 305.1500  P = 7.715000E+06  V =  1.00000      Q =-1.744270E+07
+
+      UOS BLOCK CMP1     MODEL: COMPR                                             TIME =    452.02
+      OUTLET TEMP =   352.9       OUTLET PRES =  0.3000E+08   INDICATED HP =  0.3870E+07   BRAKE HP =  0.3870E+07
+      POLYTROPIC EFFICIENCY =  0.7200    
+      ASME FAC =  0.9912    
+
+      UOS BLOCK S1       MODEL: FSPLIT                                            TIME =    452.02
+      SPLIT FRACTIONS:  0.10000D-01    0.99000D+00
+
+      CONVERGENCE BLOCK $OLVER01  METHOD: WEGSTEIN                                TIME =    452.02
+      ITER   1 For Tear Streams: S1OUT2
+
+  LOOP $OLVER01 ITER    1:     *** CONVERGED *** , MAX ERR/TOL      0.0000        TIME =    452.02
+
+      UOS BLOCK HEATER1  MODEL: HEATER                                            TIME =    452.02
+      KODE = 2  NTRIAL =   0  T = 681.0100  P = 3.000000E+07  V =  1.00000      Q =  432500.    
+
+      UOS BLOCK MIXER1   MODEL: MIXER                                             TIME =    452.02
+      NO. TEMP ITER =   12     TEMP =  473.326    
+      KODE = 1  NTRIAL =   0  T = 473.3255  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+
+      UOS BLOCK HEATER2  MODEL: HEATER                                            TIME =    452.02
+      KODE = 2  NTRIAL =   0  T = 680.8700  P = 2.995000E+07  V =  1.00000      Q = 2.413844E+07
+
+      GENERATING RESULTS FOR UOS BLOCK HX1      MODEL: HEATX                      TIME =    452.02
+      SPECIFICATION: HOT APPROACH TEMP     9.7700    
+      FLOW TYPE:     COUNTERCURRENT  
+      HOT:  TIN=  545.73  PIN=0.78650E+07   TOUT=  362.66  POUT=0.78650E+07
+      COLD: TIN=  352.89  PIN=0.30000E+08   TOUT=  471.48  POUT=0.30000E+08
+      AREA= 690.80           DUTY=0.18668E+08       FT=1.00000
+
+      BEGIN HEATX TQ-CURVE CALCULATIONS FOR BLOCK HX1     
+
+      BEGIN COLD-TQCURVE INLET   
+      NO. TEMP ITER =   12     TEMP =  471.484    
+      KODE = 1  NTRIAL =   0  T = 471.4842  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  464.780    
+      KODE = 1  NTRIAL =   0  T = 464.7798  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  458.194    
+      KODE = 1  NTRIAL =   0  T = 458.1942  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  451.731    
+      KODE = 1  NTRIAL =   0  T = 451.7306  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  445.391    
+      KODE = 1  NTRIAL =   0  T = 445.3915  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  439.178    
+      KODE = 1  NTRIAL =   0  T = 439.1779  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  433.090    
+      KODE = 1  NTRIAL =   0  T = 433.0900  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  427.126    
+      KODE = 1  NTRIAL =   0  T = 427.1263  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  421.284    
+      KODE = 1  NTRIAL =   0  T = 421.2837  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  415.558    
+      KODE = 1  NTRIAL =   0  T = 415.5580  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  409.943    
+      KODE = 1  NTRIAL =   0  T = 409.9432  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  404.432    
+      KODE = 1  NTRIAL =   0  T = 404.4322  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  399.017    
+      KODE = 1  NTRIAL =   0  T = 399.0166  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  393.688    
+      KODE = 1  NTRIAL =   0  T = 393.6876  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  388.435    
+      KODE = 1  NTRIAL =   0  T = 388.4354  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  383.250    
+      KODE = 1  NTRIAL =   0  T = 383.2498  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  378.120    
+      KODE = 1  NTRIAL =   0  T = 378.1201  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    9     TEMP =  373.035    
+      KODE = 1  NTRIAL =   0  T = 373.0348  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    8     TEMP =  367.982    
+      KODE = 1  NTRIAL =   0  T = 367.9821  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    8     TEMP =  362.949    
+      KODE = 1  NTRIAL =   0  T = 362.9492  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    7     TEMP =  357.924    
+      KODE = 1  NTRIAL =   0  T = 357.9237  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    6     TEMP =  352.894    
+      KODE = 1  NTRIAL =   0  T = 352.8935  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+
+      BEGIN HOT-TQCURVE  INLET   
+      NO. TEMP ITER =   12     TEMP =  545.732    
+      KODE = 1  NTRIAL =   0  T = 545.7319  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  536.640    
+      KODE = 1  NTRIAL =   0  T = 536.6400  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  527.542    
+      KODE = 1  NTRIAL =   0  T = 527.5422  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  518.442    
+      KODE = 1  NTRIAL =   0  T = 518.4415  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  509.341    
+      KODE = 1  NTRIAL =   0  T = 509.3413  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  500.245    
+      KODE = 1  NTRIAL =   0  T = 500.2454  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  491.159    
+      KODE = 1  NTRIAL =   0  T = 491.1586  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  482.086    
+      KODE = 1  NTRIAL =   0  T = 482.0860  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  473.034    
+      KODE = 1  NTRIAL =   0  T = 473.0338  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  464.009    
+      KODE = 1  NTRIAL =   0  T = 464.0093  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  455.021    
+      KODE = 1  NTRIAL =   0  T = 455.0206  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  446.077    
+      KODE = 1  NTRIAL =   0  T = 446.0774  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  437.191    
+      KODE = 1  NTRIAL =   0  T = 437.1908  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  428.374    
+      KODE = 1  NTRIAL =   0  T = 428.3736  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  419.641    
+      KODE = 1  NTRIAL =   0  T = 419.6406  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  411.009    
+      KODE = 1  NTRIAL =   0  T = 411.0090  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  402.498    
+      KODE = 1  NTRIAL =   0  T = 402.4984  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  394.131    
+      KODE = 1  NTRIAL =   0  T = 394.1311  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  385.933    
+      KODE = 1  NTRIAL =   0  T = 385.9330  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  377.933    
+      KODE = 1  NTRIAL =   0  T = 377.9330  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    9     TEMP =  370.164    
+      KODE = 1  NTRIAL =   0  T = 370.1643  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    8     TEMP =  362.664    
+      KODE = 1  NTRIAL =   0  T = 362.6635  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+
+      BEGIN COLD-TQCURVE INLET   
+
+      BEGIN HOT-TQCURVE  INLET   
+      END HEATX TQ-CURVE CALCULATIONS FOR BLOCK HX1     
+
+      BEGIN HEATX TQ-CURVE REPORT FOR BLOCK HX1     
+
+      BEGIN COLD-TQCURVE INLET   
+
+      BEGIN HOT-TQCURVE  INLET   
+      END HEATX TQ-CURVE REPORT FOR BLOCK HX1     
+
+
+*** INPUT SPECIFICATION MESSAGES ***
+
+ CHANGES WERE MADE TO IN-UNITS     05/28/2025   16:57:40:99 
+ IN-UNITS SI ENTHALPY-FLO=MW POWER=MW PRESSURE=Pa TEMPERATURE=C  &
+         DELTA-T=C WORK=kJ PDROP=Pa SHORT-LENGTH=mm
+
+ STREAM       FEED     IS GENERATED BECAUSE OF OTHER CHANGES 05/28/2025   16:57:40:99 
+ STREAM FEED
+     SUBSTREAM MIXED TEMP=407.7200000 PRES=2.99500000E+7
+     MASS-FLOW CO2 86.67000000
+
+ DEF-STREAMS  IS GENERATED BECAUSE OF OTHER CHANGES 05/28/2025   16:57:40:99 
+ DEF-STREAMS HEAT S6
+
+ DEF-STREAMS  IS GENERATED BECAUSE OF OTHER CHANGES 05/28/2025   16:57:40:99 
+ DEF-STREAMS HEAT S7
+
+ DEF-STREAMS  IS GENERATED BECAUSE OF OTHER CHANGES 05/28/2025   16:57:40:99 
+ DEF-STREAMS HEAT S8
+
+ DEF-STREAMS  IS GENERATED BECAUSE OF OTHER CHANGES 05/28/2025   16:57:40:99 
+ DEF-STREAMS WORK S4
+
+ DEF-STREAMS  IS GENERATED BECAUSE OF OTHER CHANGES 05/28/2025   16:57:40:99 
+ DEF-STREAMS WORK S5
+
+ CHANGES WERE MADE TO OUT-UNITS    05/28/2025   16:57:40:99 
+ OUT-UNITS SI ENTHALPY-FLO=MW POWER=MW PRESSURE=Pa TEMPERATURE=C  &
+         DELTA-T=C WORK=kJ PDROP=Pa SHORT-LENGTH=mm
+
+ PDF updated                                                                      TIME =    533.93
+ THIS COPY OF ASPEN PLUS LICENSED TO THE UNIVERSITY OF MANCHE        
+ 
+ 
+
+
+Calculations begin                                                              time    533.94
+
+
+      ENTHALPY CALCULATION FOR INLET STREAM FEED OF BLOCK T1                      TIME =    533.94
+      KODE = 2  NTRIAL =   0  T = 680.8700  P = 2.995000E+07  V =  1.00000      Q =  0.00000    
+
+      UOS BLOCK T1       MODEL: COMPR                                             TIME =    533.94
+      OUTLET TEMP =   545.7       OUTLET PRES =  0.7865E+07   INDICATED HP = -0.1100E+08   BRAKE HP = -0.1100E+08
+      ISENTR TEMP =   525.9      CALC ISENTR EFF =  0.8500      ISENTR HP = -0.1294E+08  HP = -0.2166E+08
+
+      CONVERGENCE BLOCK $OLVER01  METHOD: WEGSTEIN                                TIME =    533.94
+      ITER   0 For Tear Streams: S1OUT2
+
+      UOS BLOCK HX1      MODEL: HEATX                                             TIME =    533.94
+      SPECIFICATION: HOT APPROACH TEMP     9.7700    
+      FLOW TYPE:     COUNTERCURRENT  
+      HOT:  TIN=  545.73  PIN=0.78650E+07   TOUT=  362.66  POUT=0.78650E+07
+      COLD: TIN=  352.89  PIN=0.30000E+08   TOUT=  471.48  POUT=0.30000E+08
+                              DUTY=0.18668E+08
+
+      UOS BLOCK COOLER1  MODEL: HEATER                                            TIME =    533.94
+      KODE = 2  NTRIAL =   0  T = 305.1500  P = 7.715000E+06  V =  1.00000      Q =-1.744270E+07
+
+      UOS BLOCK CMP1     MODEL: COMPR                                             TIME =    533.94
+      OUTLET TEMP =   352.9       OUTLET PRES =  0.3000E+08   INDICATED HP =  0.3870E+07   BRAKE HP =  0.3870E+07
+      POLYTROPIC EFFICIENCY =  0.7200    
+      ASME FAC =  0.9912    
+
+      UOS BLOCK S1       MODEL: FSPLIT                                            TIME =    533.94
+      SPLIT FRACTIONS:  0.10000D-01    0.99000D+00
+
+      CONVERGENCE BLOCK $OLVER01  METHOD: WEGSTEIN                                TIME =    533.94
+      ITER   1 For Tear Streams: S1OUT2
+
+  LOOP $OLVER01 ITER    1:     *** CONVERGED *** , MAX ERR/TOL      0.0000        TIME =    533.94
+
+      UOS BLOCK HEATER1  MODEL: HEATER                                            TIME =    533.94
+      KODE = 2  NTRIAL =   0  T = 681.0100  P = 3.000000E+07  V =  1.00000      Q =  432500.    
+
+      UOS BLOCK MIXER1   MODEL: MIXER                                             TIME =    533.94
+      NO. TEMP ITER =   12     TEMP =  473.326    
+      KODE = 1  NTRIAL =   0  T = 473.3255  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+
+      UOS BLOCK HEATER2  MODEL: HEATER                                            TIME =    533.94
+      KODE = 2  NTRIAL =   0  T = 680.8700  P = 2.995000E+07  V =  1.00000      Q = 2.413844E+07
+
+      GENERATING RESULTS FOR UOS BLOCK HX1      MODEL: HEATX                      TIME =    533.94
+      SPECIFICATION: HOT APPROACH TEMP     9.7700    
+      FLOW TYPE:     COUNTERCURRENT  
+      HOT:  TIN=  545.73  PIN=0.78650E+07   TOUT=  362.66  POUT=0.78650E+07
+      COLD: TIN=  352.89  PIN=0.30000E+08   TOUT=  471.48  POUT=0.30000E+08
+      AREA= 690.80           DUTY=0.18668E+08       FT=1.00000
+
+      BEGIN HEATX TQ-CURVE CALCULATIONS FOR BLOCK HX1     
+
+      BEGIN COLD-TQCURVE INLET   
+      NO. TEMP ITER =   12     TEMP =  471.484    
+      KODE = 1  NTRIAL =   0  T = 471.4842  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  464.780    
+      KODE = 1  NTRIAL =   0  T = 464.7798  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  458.194    
+      KODE = 1  NTRIAL =   0  T = 458.1942  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  451.731    
+      KODE = 1  NTRIAL =   0  T = 451.7306  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  445.391    
+      KODE = 1  NTRIAL =   0  T = 445.3915  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  439.178    
+      KODE = 1  NTRIAL =   0  T = 439.1779  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  433.090    
+      KODE = 1  NTRIAL =   0  T = 433.0900  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  427.126    
+      KODE = 1  NTRIAL =   0  T = 427.1263  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  421.284    
+      KODE = 1  NTRIAL =   0  T = 421.2837  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  415.558    
+      KODE = 1  NTRIAL =   0  T = 415.5580  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  409.943    
+      KODE = 1  NTRIAL =   0  T = 409.9432  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  404.432    
+      KODE = 1  NTRIAL =   0  T = 404.4322  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  399.017    
+      KODE = 1  NTRIAL =   0  T = 399.0166  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  393.688    
+      KODE = 1  NTRIAL =   0  T = 393.6876  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  388.435    
+      KODE = 1  NTRIAL =   0  T = 388.4354  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  383.250    
+      KODE = 1  NTRIAL =   0  T = 383.2498  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  378.120    
+      KODE = 1  NTRIAL =   0  T = 378.1201  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    9     TEMP =  373.035    
+      KODE = 1  NTRIAL =   0  T = 373.0348  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    8     TEMP =  367.982    
+      KODE = 1  NTRIAL =   0  T = 367.9821  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    8     TEMP =  362.949    
+      KODE = 1  NTRIAL =   0  T = 362.9492  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    7     TEMP =  357.924    
+      KODE = 1  NTRIAL =   0  T = 357.9237  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    6     TEMP =  352.894    
+      KODE = 1  NTRIAL =   0  T = 352.8935  P = 3.000000E+07  V =  1.00000      Q =  0.00000    
+
+      BEGIN HOT-TQCURVE  INLET   
+      NO. TEMP ITER =   12     TEMP =  545.732    
+      KODE = 1  NTRIAL =   0  T = 545.7319  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  536.640    
+      KODE = 1  NTRIAL =   0  T = 536.6400  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  527.542    
+      KODE = 1  NTRIAL =   0  T = 527.5422  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  518.442    
+      KODE = 1  NTRIAL =   0  T = 518.4415  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  509.341    
+      KODE = 1  NTRIAL =   0  T = 509.3413  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  500.245    
+      KODE = 1  NTRIAL =   0  T = 500.2454  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  491.159    
+      KODE = 1  NTRIAL =   0  T = 491.1586  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  482.086    
+      KODE = 1  NTRIAL =   0  T = 482.0860  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  473.034    
+      KODE = 1  NTRIAL =   0  T = 473.0338  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  464.009    
+      KODE = 1  NTRIAL =   0  T = 464.0093  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  455.021    
+      KODE = 1  NTRIAL =   0  T = 455.0206  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  446.077    
+      KODE = 1  NTRIAL =   0  T = 446.0774  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  437.191    
+      KODE = 1  NTRIAL =   0  T = 437.1908  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  428.374    
+      KODE = 1  NTRIAL =   0  T = 428.3736  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  419.641    
+      KODE = 1  NTRIAL =   0  T = 419.6406  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  411.009    
+      KODE = 1  NTRIAL =   0  T = 411.0090  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  402.498    
+      KODE = 1  NTRIAL =   0  T = 402.4984  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  394.131    
+      KODE = 1  NTRIAL =   0  T = 394.1311  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  385.933    
+      KODE = 1  NTRIAL =   0  T = 385.9330  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  377.933    
+      KODE = 1  NTRIAL =   0  T = 377.9330  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    9     TEMP =  370.164    
+      KODE = 1  NTRIAL =   0  T = 370.1643  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    8     TEMP =  362.664    
+      KODE = 1  NTRIAL =   0  T = 362.6635  P = 7.865000E+06  V =  1.00000      Q =  0.00000    
+
+      BEGIN COLD-TQCURVE INLET   
+
+      BEGIN HOT-TQCURVE  INLET   
+      END HEATX TQ-CURVE CALCULATIONS FOR BLOCK HX1     
+
+      BEGIN HEATX TQ-CURVE REPORT FOR BLOCK HX1     
+
+      BEGIN COLD-TQCURVE INLET   
+
+      BEGIN HOT-TQCURVE  INLET   
+      END HEATX TQ-CURVE REPORT FOR BLOCK HX1     
+
+ Report Writer entered                                                            Time =    658.32
+
+      BEGIN HEATX TQ-CURVE REPORT FOR BLOCK HX1     
+
+      BEGIN COLD-TQCURVE INLET   
+
+      BEGIN HOT-TQCURVE  INLET   
+      END HEATX TQ-CURVE REPORT FOR BLOCK HX1     
+
+ Results generated                                                                Time =    658.33

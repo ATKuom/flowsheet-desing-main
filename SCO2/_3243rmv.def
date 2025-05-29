@@ -1,0 +1,10 @@
+SLAVE:
+INPUT: _3243rmv.inm
+MODNAME: apmain
+RUNID: _3243rmv
+NEW_RUNID: _3243rmv
+OLD_RUNID: _3243rmv
+PDF: _3243rmv.appdf
+USERNAME: m85830ak
+XMOD: C:\Program Files\AspenTech\Aspen Plus V12.1\Engine\xeq\apmain
+DBCONN: _3243rmv.ads

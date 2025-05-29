@@ -1,0 +1,10 @@
+INPUT: sco2.inm
+MODNAME: apmain
+RUNID: sco2
+NEW_RUNID: sco2
+OLD_RUNID: sco2
+PDF: sco2.appdf
+USERNAME: m85830ak
+XMOD: C:\Program Files\AspenTech\Aspen Plus V12.1\Engine\xeq\apmain
+SPONLY:
+DBCONN: _1128mjs.ads

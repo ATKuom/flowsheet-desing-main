@@ -1,0 +1,12 @@
+ DSET RUN-STATUS OLDSTAT @STATUS ( 1 2 2 2 0 0 )                                
+ DSET RUN-STATUS STATUS @STATUS ( 9 * * * * * )                                 
+ DSET RUN-STATUS COMPSTAT @L_1 (1)                                              
+ IDSET ID_114 (NPOINT) ( #4)                                                    
+ IDSET ID_115 (PROPERTIES) (747 *6)                                             
+ LSET L_50 ( %ID_114 & %ID_115)                                                 
+ DSET RUN-STATUS ERRTXT @L_50 (                                                 
+ "The following Unit Operation blocks were"                                     
+ "completed with errors:"                                                       
+ " T1 "                                                                         
+ ""                                                                             
+ )                                                                              
