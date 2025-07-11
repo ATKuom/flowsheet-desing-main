@@ -1,165 +1,547 @@
+
+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+ + +                                                                         + +
+ + +                      ASPEN PLUS CALCULATION HISTORY                     + +
+ + +                                                                         + +
+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+
+ ASPEN PLUS IS A TRADEMARK OF           HOTLINE:
+ ASPEN TECHNOLOGY, INC.                 U.S.A. 888/996-7100
+ 781/221-6400                           EUROPE (44) 1189-226555
+
+ PLATFORM: WIN-X64                                       JULY 1, 2025        
+ VERSION: 39.0   Build 116                               TUESDAY     
+ INSTALLATION:                                           12:43:53 P.M.       
+
+ THIS COPY OF ASPEN PLUS LICENSED TO THE UNIVERSITY OF MANCHE        
+
+
+      ASPEN PLUS (R) IS A PROPRIETARY PRODUCT OF ASPEN TECHNOLOGY, INC.
+      (ASPENTECH), AND MAY BE USED ONLY UNDER AGREEMENT WITH ASPENTECH.
+      RESTRICTED RIGHTS LEGEND:  USE, REPRODUCTION, OR DISCLOSURE BY THE
+      U.S. GOVERNMENT IS SUBJECT TO RESTRICTIONS SET FORTH IN 
+      (i) FAR 52.227-14, Alt. III, (ii) FAR 52.227-19, (iii) DFARS 
+      252.227-7013(c)(1)(ii), or (iv) THE ACCOMPANYING LICENSE AGREEMENT,
+      AS APPLICABLE. FOR PURPOSES OF THE FAR, THIS SOFTWARE SHALL BE DEEMED
+      TO BE "UNPUBLISHED" AND LICENSED WITH DISCLOSURE PROHIBITIONS.
+      CONTRACTOR/SUBCONTRACTOR: ASPEN TECHNOLOGY, INC. 20 CROSBY DRIVE,
+      BEDFORD, MA 01730.
+ *** INPUT SUMMARY ***
+
+ >>CURRENT RUN
+
+   ORIGINAL RUN                           JULY 1, 2025        
+   12:43:53 P.M.                          TUESDAY     
+   INPUT FILE: _3825clq.inm
+   RUN ID : _3825clq
+          1    ;
+          2    ;Input file created by Aspen Plus Rel. 39.0 at 12:43:53 Tue Jul 1, 2025
+          3    ;Directory c:\Users\m85830ak\Python\flowsheet-desing-main\SCO2  Runid SCO2
+          4    ;
+          5
+          6
+          7    DYNAMICS
+          8        DYNAMICS RESULTS=ON
+          9
+         10    IN-UNITS SI ENTHALPY-FLO=MW POWER=MW PRESSURE=Pa TEMPERATURE=C  &
+         11            DELTA-T=C WORK=kJ PDROP=Pa SHORT-LENGTH=mm
+         12
+         13    DEF-STREAMS CONVEN ALL
+         14
+         15    SIM-OPTIONS MASS-BAL-CHE=YES ADSCNVG=YES
+         16
+         17    MODEL-OPTION
+         18
+         19    DESCRIPTION "
+         20        Polymers Batch Process with Metric Units :
+         21        K, atm, kg/hr, kmol/hr, cal/sec, l/min.
+         22
+         23        Property Method: None
+         24
+         25        Flow basis for input: Mass
+         26
+         27        Stream report composition: Mass flow
+         28        "
+         29
+         30    DATABANKS 'APV121 POLYMER' / 'APV121 SEGMENT' /  &
+         31            'APV121 INITIATO' / 'APV121 PURE39' / NOASPENPCD
+         32
+         33    PROP-SOURCES 'APV121 POLYMER' / 'APV121 SEGMENT' /  &
+         34            'APV121 INITIATO' / 'APV121 PURE39'
+         35
+         36    COMPONENTS
+         37        CO2 CO2
+         38
+         39    SOLVE
+         40        PARAM PROCESS=CONTINUOUS
+         41        RUN-MODE MODE=SIM
+         42
+         43    FLOWSHEET
+         44        BLOCK T1 IN=N1 OUT=T1OUT
+         45        BLOCK X1 IN=T1OUT T4OUT OUT=X1OUT1 X1OUT2
+         46        BLOCK S1 IN=X1OUT1 OUT=S1S1OUT S1S2OUT
+         47        BLOCK T2 IN=S1S1OUT OUT=T2OUT
+         48        BLOCK A1 IN=T2OUT OUT=A1OUT
+         49        BLOCK C1 IN=A1OUT OUT=C1OUT
+         50        BLOCK H1 IN=C1OUT OUT=H1OUT
+         51        BLOCK M1 IN=H1OUT T3OUT OUT=M1OUT
+         52        BLOCK T3 IN=S1S2OUT OUT=T3OUT
+         53        BLOCK A2 IN=M1OUT OUT=A2OUT
+         54        BLOCK C2 IN=A2OUT OUT=C2OUT
+         55        BLOCK T4 IN=C2OUT OUT=T4OUT
+         56        BLOCK H2 IN=X1OUT2 OUT=H2OUT
+         57
+         58    PROPERTIES REFPROP
+         59        PROPERTIES IDEAL
+         60
+         61    STREAM N1
+         62        SUBSTREAM MIXED TEMP=404.3318139 PRES=29945564.036
+         63        MASS-FLOW CO2 89.954997148
+         64
+         65    BLOCK M1 MIXER
+         66        PARAM
+         67
+         68    BLOCK S1 FSPLIT
+         69        FRAC S1S1OUT 0.01
+         70
+         71    BLOCK A1 HEATER
+         72        PARAM TEMP=32. PRES=7300000. DPPARMOPT=NO
+         73
+         74    BLOCK A2 HEATER
+         75        PARAM TEMP=32. PRES=7725750.3471 DPPARMOPT=NO
+         76
+         77    BLOCK H1 HEATER
+         78        PARAM TEMP=180. PRES=30000000. DPPARMOPT=NO
+         79
+         80    BLOCK H2 HEATER
+         81        PARAM TEMP=404.3318139 PRES=29945564.036 DPPARMOPT=NO
+         82
+         83    BLOCK X1 HEATX
+         84        PARAM DELT-HOT=4. PRES-HOT=7833224.752  &
+         85            PRES-COLD=29945564.036
+         86        FEEDS HOT=T1OUT COLD=T4OUT
+         87        OUTLETS-HOT X1OUT1
+         88        OUTLETS-COLD X1OUT2
+         89        HOT-SIDE DPPARMOPT=NO
+         90        COLD-SIDE DPPARMOPT=NO
+         91        TQ-PARAM CURVE=YES
+         92
+         93    BLOCK C1 COMPR
+         94        PARAM TYPE=ISENTROPIC PRES=30000000. SEFF=0.82 NPHASE=2  &
+         95            SB-MAXIT=30 SB-TOL=0.0001 MODEL-TYPE=COMPRESSOR
+         96
+         97    BLOCK C2 COMPR
+         98        PARAM TYPE=ISENTROPIC PRES=30000000. SEFF=0.82 NPHASE=2  &
+         99            SB-MAXIT=30 SB-TOL=0.0001 MODEL-TYPE=COMPRESSOR
+        100
+        101    BLOCK T1 COMPR
+        102        PARAM TYPE=ISENTROPIC PRES=7883224.752 SEFF=0.85 NPHASE=2  &
+        103            SB-MAXIT=30 SB-TOL=0.0001 MODEL-TYPE=TURBINE
+        104        PERFOR-PARAM CALC-SPEED=NO
+        105
+        106    BLOCK T2 COMPR
+        107        PARAM TYPE=ISENTROPIC PRES=7400000. SEFF=0.85 NPHASE=2  &
+        108            SB-MAXIT=30 SB-TOL=0.0001 MODEL-TYPE=TURBINE
+        109        PERFOR-PARAM CALC-SPEED=NO
+        110
+        111    BLOCK T3 COMPR
+        112        PARAM TYPE=ISENTROPIC PRES=7825750.3471 SEFF=0.85 NPHASE=2  &
+        113            SB-MAXIT=30 SB-TOL=0.0001 MODEL-TYPE=TURBINE
+        114        PERFOR-PARAM CALC-SPEED=NO
+        115
+        116    BLOCK T4 COMPR
+        117        PARAM TYPE=ISENTROPIC PRES=29995564.036 SEFF=0.85 NPHASE=2  &
+        118            SB-MAXIT=30 SB-TOL=0.0001 MODEL-TYPE=TURBINE
+        119        PERFOR-PARAM CALC-SPEED=NO
+        120
+        121    EO-CONV-OPTI
+        122
+        123    STREAM-REPOR MOLEFLOW MASSFLOW
+        124
+        125    PROPERTY-REP PCES
+        126    ;
+        127    ;
+        128    ;
+        129    ;
+        130    ;
+ *** INPUT TRANSLATOR MESSAGES ***
+
+  *** THIS RUN USES THE PROPERTIES ENTERPRISE DATABASE ***
+      SQLLOCALDB.APESV121 : (DATAVERSION - 39.0.0.5)                          
+      SQLLOCALDB.APV121 : (DATAVERSION - 39.0.0.3)                            
+      SQLLOCALDB.FACTV121 : (DATAVERSION - 39.0.0.3)                          
+      SQLLOCALDB.NISTV121 : (DATAVERSION - 39.0.0.3)                          
+ 
+ 
+
+ PDF updated                                                                      TIME =      0.30
 
  *** CALCULATION TRACE ***
 
 
-<set objective = None>
-<reset scope>
-<reset scope>
-<reset scope>
-<reset scope>
-
-
-*** INPUT SPECIFICATION MESSAGES ***
-
- THE FOLLOWING PARAGRAPH(S) WERE DELETED:
-
- DELETE
-   BLOCK        "B3      " "B4      " "B2      " "B5      "
-
- DEF-STREAMS  IS GENERATED BECAUSE OF OTHER CHANGES 05/28/2025   15:12:20:99 
- DEF-STREAMS WORK S9
-
- CHANGES WERE MADE TO STREAM       S2       05/28/2025   15:12:20:99 
- STREAM S2
-     SUBSTREAM MIXED TEMP=411.4 PRES=238.9 MASS-FLOW=93.2
-     MOLE-FLOW CARBO-01 1.
-
- DISABLE      IS  NEW 05/28/2025   15:12:20:99 
- DISABLE
-     BLOCK B1
-
- FLOWSHEET    IS  NEW 05/28/2025   15:12:20:99 
- FLOWSHEET
-     BLOCK B1 IN=S2 OUT=S1 S9
-
- PDF updated                                                                      TIME =     50.59
- THIS COPY OF ASPEN PLUS LICENSED TO THE UNIVERSITY OF MANCHE        
-
-  *   WARNING IN A "STREAM" PARAGRAPH                                           
-      STREAM NAME: S2                                          (STSTRM.28)      
-      COMPONENT MOLE FLOWS OF SUBSTREAM: "MIXED"                                
-      ARE NORMALIZED TO THE TOTAL MOLE FLOW VALUE.                              
-
-      INFORMATION                                              (CHKACC.1)       
-      TEAR STREAM S6       IS DELETED                                           
-
-   Disable STREAM S2 due to disabled source AND destination
-   Disable STREAM S1 due to disabled source AND destination
-   Disable STREAM S9 due to disabled source AND destination
-
- 
- 
  *** FLOWSHEET ANALYSIS MESSAGES ***
 
  FLOWSHEET CONNECTIVITY BY STREAMS       
 
    STREAM     SOURCE     DEST           STREAM     SOURCE     DEST
-   S2         ----       B1             S1         B1         ----    
-   S9         B1         ----                                         
+   N1         ----       T1             T1OUT      T1         X1      
+   X1OUT1     X1         S1             X1OUT2     X1         H2      
+   S1S1OUT    S1         T2             S1S2OUT    S1         T3      
+   T2OUT      T2         A1             A1OUT      A1         C1      
+   C1OUT      C1         H1             H1OUT      H1         M1      
+   M1OUT      M1         A2             T3OUT      T3         M1      
+   A2OUT      A2         C2             C2OUT      C2         T4      
+   T4OUT      T4         X1             H2OUT      H2         ----    
 
  FLOWSHEET CONNECTIVITY BY BLOCKS        
 
    BLOCK        INLETS                         OUTLETS
-   B1           S2                             S1 S9                       
+   T1           N1                             T1OUT                       
+   X1           T1OUT T4OUT                    X1OUT1 X1OUT2               
+   S1           X1OUT1                         S1S1OUT S1S2OUT             
+   T2           S1S1OUT                        T2OUT                       
+   A1           T2OUT                          A1OUT                       
+   C1           A1OUT                          C1OUT                       
+   H1           C1OUT                          H1OUT                       
+   M1           H1OUT T3OUT                    M1OUT                       
+   T3           S1S2OUT                        T3OUT                       
+   A2           M1OUT                          A2OUT                       
+   C2           A2OUT                          C2OUT                       
+   T4           C2OUT                          T4OUT                       
+   H2           X1OUT2                         H2OUT                       
 
-      NO BLOCKS TO SIMULATE
-
-Calculations begin                                                              time     51.26
-
-
-
-*** INPUT SPECIFICATION MESSAGES ***
-
- DEF-STREAMS  IS GENERATED BECAUSE OF OTHER CHANGES 05/28/2025   15:12:33:09 
- DEF-STREAMS WORK S9
-
- BLOCK        B1       IS GENERATED BECAUSE OF OTHER CHANGES 05/28/2025   15:12:33:09 
- BLOCK B1 COMPR
-     PARAM TYPE=ISENTROPIC PRES=78.54 SEFF=0.85 NPHASE=2  &
-         SB-MAXIT=30 SB-TOL=0.0001 MODEL-TYPE=TURBINE
-     PERFOR-PARAM CALC-SPEED=NO
-     BLOCK-OPTION FREE-WATER=NO
-
- DISABLE      IS  NEW 05/28/2025   15:12:33:09 
- DISABLE
-
- PDF updated                                                                      TIME =     62.58
- THIS COPY OF ASPEN PLUS LICENSED TO THE UNIVERSITY OF MANCHE        
-
-
- 
- 
- *** FLOWSHEET ANALYSIS MESSAGES ***
-
- FLOWSHEET CONNECTIVITY BY STREAMS       
-
-   STREAM     SOURCE     DEST           STREAM     SOURCE     DEST
-   S2         ----       B1             S1         B1         ----    
-   S9         B1         ----                                         
-
- FLOWSHEET CONNECTIVITY BY BLOCKS        
-
-   BLOCK        INLETS                         OUTLETS
-   B1           S2                             S1 S9                       
+      BLOCK $OLVER01 (METHOD: WEGSTEIN) HAS BEEN DEFINED TO CONVERGE
+               STREAMS: M1OUT
 
       COMPUTATION ORDER FOR THE FLOWSHEET IS:
-      B1 
-
+      T1 
+      $OLVER01 A2 C2 T4 X1 S1 T2 A1 C1 H1 T3 M1 
+      (RETURN $OLVER01) 
+      H2 
 
-Calculations begin                                                              time     63.15
+Calculations begin                                                              time      0.02
 
 
- SIMULATION CALCULATIONS BEGIN                                                    TIME =     63.15
+ SIMULATION CALCULATIONS BEGIN                                                    TIME =      0.02
 
-      ENTHALPY CALCULATION FOR INLET STREAM S2 OF BLOCK B1                        TIME =     63.15
-      KODE = 2  NTRIAL =   0  T = 684.5500  P = 2.389000E+07  V =  1.00000      Q =  0.00000    
+      ENTHALPY CALCULATION FOR INLET STREAM N1 OF BLOCK T1                        TIME =      0.02
+      KODE = 2  NTRIAL =   0  T = 677.4818  P = 2.994556E+07  V =  1.00000      Q =  0.00000    
 
-      UOS BLOCK B1       MODEL: COMPR                                             TIME =     63.17
-      OUTLET TEMP =   571.3       OUTLET PRES =  0.7854E+07   INDICATED HP = -0.1015E+08   BRAKE HP = -0.1015E+08
-      ISENTR TEMP =   554.3      CALC ISENTR EFF =  0.8500      ISENTR HP = -0.1195E+08  HP = -0.2150E+08
-
+      UOS BLOCK T1       MODEL: COMPR                                             TIME =      0.02
+      OUTLET TEMP =   542.9       OUTLET PRES =  0.7883E+07   INDICATED HP = -0.1132E+08   BRAKE HP = -0.1132E+08
+      ISENTR TEMP =   523.2      CALC ISENTR EFF =  0.8500      ISENTR HP = -0.1332E+08  HP = -0.2314E+08
 
-*** INPUT SPECIFICATION MESSAGES ***
+      CONVERGENCE BLOCK $OLVER01  METHOD: WEGSTEIN                                TIME =      0.02
+      ITER   0 For Tear Streams: M1OUT
 
- DEF-STREAMS  IS GENERATED BECAUSE OF OTHER CHANGES 05/28/2025   15:13:13:99 
- DEF-STREAMS WORK S9
+      UOS BLOCK A2       MODEL: HEATER                                            TIME =      0.02
 
- CHANGES WERE MADE TO BLOCK        B1       05/28/2025   15:13:13:99 
- BLOCK B1 COMPR
-     PARAM TYPE=ISENTROPIC PRES=78.65 SEFF=0.85 NPHASE=2  &
-         SB-MAXIT=30 SB-TOL=0.0001 MODEL-TYPE=TURBINE
-     PERFOR-PARAM CALC-SPEED=NO
-     BLOCK-OPTION FREE-WATER=NO
+  *   WARNING WHILE EXECUTING UNIT OPERATIONS BLOCK: "A2" (MODEL: "HEATER")     
+                                                               (UHE01.4)        
+      ZERO FEED TO THE BLOCK.  BLOCK BYPASSED                                   
 
- PDF updated                                                                      TIME =    103.13
- THIS COPY OF ASPEN PLUS LICENSED TO THE UNIVERSITY OF MANCHE        
+      UOS BLOCK C2       MODEL: COMPR                                             TIME =      0.02
+
+  *   WARNING WHILE EXECUTING UNIT OPERATIONS BLOCK: "C2" (MODEL: "COMPR")      
+                                                               (CMSTIN.1)       
+      TOTAL FLOW IS ZERO. BLOCK IS BYPASSED.                                    
  
+
+      UOS BLOCK T4       MODEL: COMPR                                             TIME =      0.02
+
+  *   WARNING WHILE EXECUTING UNIT OPERATIONS BLOCK: "T4" (MODEL: "COMPR")      
+                                                               (CMSTIN.1)       
+      TOTAL FLOW IS ZERO. BLOCK IS BYPASSED.                                    
  
- *** FLOWSHEET ANALYSIS MESSAGES ***
 
- FLOWSHEET CONNECTIVITY BY STREAMS       
+      UOS BLOCK X1       MODEL: HEATX                                             TIME =      0.02
 
-   STREAM     SOURCE     DEST           STREAM     SOURCE     DEST
-   S2         ----       B1             S1         B1         ----    
-   S9         B1         ----                                         
+  *   WARNING WHILE EXECUTING UNIT OPERATIONS BLOCK: "X1" (MODEL: "HEATX")      
+                                                               (UHE02I.1)       
+      AT LEAST ONE FEED HAS ZERO FLOW                                           
+      BLOCK BYPASSED                                                            
 
- FLOWSHEET CONNECTIVITY BY BLOCKS        
+      UOS BLOCK S1       MODEL: FSPLIT                                            TIME =      0.02
+      SPLIT FRACTIONS:  0.10000D-01    0.99000D+00
 
-   BLOCK        INLETS                         OUTLETS
-   B1           S2                             S1 S9                       
+      UOS BLOCK T2       MODEL: COMPR                                             TIME =      0.02
+      OUTLET TEMP =   537.0       OUTLET PRES =  0.7400E+07   INDICATED HP =  -4765.       BRAKE HP =  -4765.    
+      ISENTR TEMP =   536.2      CALC ISENTR EFF =  0.8500      ISENTR HP =  -5606.      HP =  -97.40    
 
-      COMPUTATION ORDER FOR THE FLOWSHEET IS:
-      B1 
-
+      UOS BLOCK A1       MODEL: HEATER                                            TIME =      0.02
+      KODE = 2  NTRIAL =   0  T = 305.1500  P = 7.300000E+06  V =  1.00000      Q = -292980.    
 
-Calculations begin                                                              time    103.31
+      UOS BLOCK C1       MODEL: COMPR                                             TIME =      0.02
+      OUTLET TEMP =   402.1       OUTLET PRES =  0.3000E+08   INDICATED HP =  0.5533E+05   BRAKE HP =  0.5533E+05
+      ISENTR TEMP =   396.4      CALC ISENTR EFF =  0.8200      ISENTR HP =  0.4537E+05  HP =   1131.    
 
+      UOS BLOCK H1       MODEL: HEATER                                            TIME =      0.02
+      KODE = 2  NTRIAL =   0  T = 453.1500  P = 3.000000E+07  V =  1.00000      Q =  80542.0    
 
-      UOS BLOCK B1       MODEL: COMPR                                             TIME =    103.31
-      OUTLET TEMP =   571.4       OUTLET PRES =  0.7865E+07   INDICATED HP = -0.1014E+08   BRAKE HP = -0.1014E+08
-      ISENTR TEMP =   554.5      CALC ISENTR EFF =  0.8500      ISENTR HP = -0.1193E+08  HP = -0.2148E+08
-<reset scope>
-<reset scope>
+      UOS BLOCK T3       MODEL: COMPR                                             TIME =      0.02
+      OUTLET TEMP =   542.2       OUTLET PRES =  0.7826E+07   INDICATED HP = -0.5493E+05   BRAKE HP = -0.5493E+05
+      ISENTR TEMP =   542.1      CALC ISENTR EFF =  0.8500      ISENTR HP = -0.6463E+05  HP = -0.1112E+06
+
+      UOS BLOCK M1       MODEL: MIXER                                             TIME =      0.02
+      NO. TEMP ITER =   11     TEMP =  540.613    
+      KODE = 1  NTRIAL =   0  T = 540.6127  P = 7.825750E+06  V =  1.00000      Q =  0.00000    
+
+      CONVERGENCE BLOCK $OLVER01  METHOD: WEGSTEIN                                TIME =      0.02
+      ITER   1 For Tear Streams: M1OUT
+
+      --FLASH TEAR STREAM M1OUT   
+      NO. TEMP ITER =    3     TEMP =  540.613    
+      KODE = 1  NTRIAL =   0  T = 540.6132  P = 7.825750E+06  V =  1.00000      Q =  0.00000    
+
+  LOOP $OLVER01 ITER    1:   2 VARS NOT CONVERGED, MAX ERR/TOL     0.10000E+07    TIME =      0.02
+
+      UOS BLOCK A2       MODEL: HEATER                                            TIME =      0.02
+      KODE = 2  NTRIAL =   0  T = 305.1500  P = 7.725750E+06  V =  1.00000      Q =-3.701723E+07
+
+      UOS BLOCK C2       MODEL: COMPR                                             TIME =      0.02
+      OUTLET TEMP =   349.5       OUTLET PRES =  0.3000E+08   INDICATED HP =  0.3443E+07   BRAKE HP =  0.3443E+07
+      ISENTR TEMP =   346.2      CALC ISENTR EFF =  0.8200      ISENTR HP =  0.2823E+07  HP =  0.7037E+07
+
+      UOS BLOCK T4       MODEL: COMPR                                             TIME =      0.02
+      OUTLET TEMP =   349.5       OUTLET PRES =  0.3000E+08   INDICATED HP =  -445.7       BRAKE HP =  -445.7    
+      ISENTR TEMP =   349.5      CALC ISENTR EFF =  0.8500      ISENTR HP =  -524.4      HP =  -911.0    
+
+      UOS BLOCK X1       MODEL: HEATX                                             TIME =      0.02
+      SPECIFICATION: HOT APPROACH TEMP     4.0000    
+      FLOW TYPE:     COUNTERCURRENT  
+      HOT:  TIN=  542.88  PIN=0.78832E+07   TOUT=  353.52  POUT=0.78332E+07
+      COLD: TIN=  349.52  PIN=0.29996E+08   TOUT=  471.70  POUT=0.29946E+08
+                              DUTY=0.20235E+08
+
+      UOS BLOCK S1       MODEL: FSPLIT                                            TIME =      0.02
+      SPLIT FRACTIONS:  0.10000D-01    0.99000D+00
+
+      UOS BLOCK T2       MODEL: COMPR                                             TIME =      0.02
+      OUTLET TEMP =   349.0       OUTLET PRES =  0.7400E+07   INDICATED HP =  -2178.       BRAKE HP =  -2178.    
+      ISENTR TEMP =   348.7      CALC ISENTR EFF =  0.8500      ISENTR HP =  -2563.      HP =  -44.53    
+
+      UOS BLOCK A1       MODEL: HEATER                                            TIME =      0.02
+      KODE = 2  NTRIAL =   0  T = 305.1500  P = 7.300000E+06  V =  1.00000      Q = -93215.9    
+
+      UOS BLOCK C1       MODEL: COMPR                                             TIME =      0.02
+      OUTLET TEMP =   402.1       OUTLET PRES =  0.3000E+08   INDICATED HP =  0.5533E+05   BRAKE HP =  0.5533E+05
+      ISENTR TEMP =   396.4      CALC ISENTR EFF =  0.8200      ISENTR HP =  0.4537E+05  HP =   1131.    
+
+      UOS BLOCK H1       MODEL: HEATER                                            TIME =      0.02
+      KODE = 2  NTRIAL =   0  T = 453.1500  P = 3.000000E+07  V =  1.00000      Q =  80542.0    
+
+      UOS BLOCK T3       MODEL: COMPR                                             TIME =      0.02
+      OUTLET TEMP =   353.4       OUTLET PRES =  0.7826E+07   INDICATED HP =  -3643.       BRAKE HP =  -3643.    
+      ISENTR TEMP =   353.4      CALC ISENTR EFF =  0.8500      ISENTR HP =  -4286.      HP =  -7372.    
+
+      UOS BLOCK M1       MODEL: MIXER                                             TIME =      0.02
+      NO. TEMP ITER =    7     TEMP =  353.750    
+      KODE = 1  NTRIAL =   0  T = 353.7502  P = 7.825750E+06  V =  1.00000      Q =  0.00000    
+
+      CONVERGENCE BLOCK $OLVER01  METHOD: WEGSTEIN                                TIME =      0.02
+      ITER   2 For Tear Streams: M1OUT
+
+      --FLASH TEAR STREAM M1OUT   
+      NO. TEMP ITER =    1     TEMP =  353.750    
+      KODE = 1  NTRIAL =   0  T = 353.7502  P = 7.825750E+06  V =  1.00000      Q =  0.00000    
+
+  LOOP $OLVER01 ITER    2:   1 VARS NOT CONVERGED, MAX ERR/TOL     -254.39        TIME =      0.02
+
+      UOS BLOCK A2       MODEL: HEATER                                            TIME =      0.02
+      KODE = 2  NTRIAL =   0  T = 305.1500  P = 7.725750E+06  V =  1.00000      Q =-1.703575E+07
+
+      UOS BLOCK C2       MODEL: COMPR                                             TIME =      0.02
+      OUTLET TEMP =   349.5       OUTLET PRES =  0.3000E+08   INDICATED HP =  0.3443E+07   BRAKE HP =  0.3443E+07
+      ISENTR TEMP =   346.2      CALC ISENTR EFF =  0.8200      ISENTR HP =  0.2823E+07  HP =  0.7037E+07
+
+      UOS BLOCK T4       MODEL: COMPR                                             TIME =      0.02
+      OUTLET TEMP =   349.5       OUTLET PRES =  0.3000E+08   INDICATED HP =  -445.7       BRAKE HP =  -445.7    
+      ISENTR TEMP =   349.5      CALC ISENTR EFF =  0.8500      ISENTR HP =  -524.4      HP =  -911.0    
+
+      UOS BLOCK X1       MODEL: HEATX                                             TIME =      0.02
+      SPECIFICATION: HOT APPROACH TEMP     4.0000    
+      FLOW TYPE:     COUNTERCURRENT  
+      HOT:  TIN=  542.88  PIN=0.78832E+07   TOUT=  353.52  POUT=0.78332E+07
+      COLD: TIN=  349.52  PIN=0.29996E+08   TOUT=  471.70  POUT=0.29946E+08
+                              DUTY=0.20235E+08
+
+      UOS BLOCK S1       MODEL: FSPLIT                                            TIME =      0.02
+      SPLIT FRACTIONS:  0.10000D-01    0.99000D+00
+
+      UOS BLOCK T2       MODEL: COMPR                                             TIME =      0.02
+      OUTLET TEMP =   349.0       OUTLET PRES =  0.7400E+07   INDICATED HP =  -2178.       BRAKE HP =  -2178.    
+      ISENTR TEMP =   348.7      CALC ISENTR EFF =  0.8500      ISENTR HP =  -2563.      HP =  -44.53    
+
+      UOS BLOCK A1       MODEL: HEATER                                            TIME =      0.02
+      KODE = 2  NTRIAL =   0  T = 305.1500  P = 7.300000E+06  V =  1.00000      Q = -93215.9    
+
+      UOS BLOCK C1       MODEL: COMPR                                             TIME =      0.02
+      OUTLET TEMP =   402.1       OUTLET PRES =  0.3000E+08   INDICATED HP =  0.5533E+05   BRAKE HP =  0.5533E+05
+      ISENTR TEMP =   396.4      CALC ISENTR EFF =  0.8200      ISENTR HP =  0.4537E+05  HP =   1131.    
+
+      UOS BLOCK H1       MODEL: HEATER                                            TIME =      0.02
+      KODE = 2  NTRIAL =   0  T = 453.1500  P = 3.000000E+07  V =  1.00000      Q =  80542.0    
+
+      UOS BLOCK T3       MODEL: COMPR                                             TIME =      0.02
+      OUTLET TEMP =   353.4       OUTLET PRES =  0.7826E+07   INDICATED HP =  -3643.       BRAKE HP =  -3643.    
+      ISENTR TEMP =   353.4      CALC ISENTR EFF =  0.8500      ISENTR HP =  -4286.      HP =  -7372.    
+
+      UOS BLOCK M1       MODEL: MIXER                                             TIME =      0.02
+      NO. TEMP ITER =    7     TEMP =  353.750    
+      KODE = 1  NTRIAL =   0  T = 353.7502  P = 7.825750E+06  V =  1.00000      Q =  0.00000    
+
+      CONVERGENCE BLOCK $OLVER01  METHOD: WEGSTEIN                                TIME =      0.02
+      ITER   3 For Tear Streams: M1OUT
+
+  LOOP $OLVER01 ITER    3:     *** CONVERGED *** , MAX ERR/TOL    -0.44890E-06    TIME =      0.02
+
+      UOS BLOCK H2       MODEL: HEATER                                            TIME =      0.02
+      KODE = 2  NTRIAL =   0  T = 677.4818  P = 2.994556E+07  V =  1.00000      Q = 2.487915E+07
+
+      GENERATING RESULTS FOR UOS BLOCK X1       MODEL: HEATX                      TIME =      0.02
+      SPECIFICATION: HOT APPROACH TEMP     4.0000    
+      FLOW TYPE:     COUNTERCURRENT  
+      HOT:  TIN=  542.88  PIN=0.78832E+07   TOUT=  353.52  POUT=0.78332E+07
+      COLD: TIN=  349.52  PIN=0.29996E+08   TOUT=  471.70  POUT=0.29946E+08
+      AREA= 1020.2           DUTY=0.20235E+08       FT=1.00000
+
+      BEGIN HEATX TQ-CURVE CALCULATIONS FOR BLOCK X1      
+
+      BEGIN COLD-TQCURVE INLET   
+      NO. TEMP ITER =   12     TEMP =  471.776    
+      KODE = 1  NTRIAL =   0  T = 471.7762  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  464.841    
+      KODE = 1  NTRIAL =   0  T = 464.8410  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  458.033    
+      KODE = 1  NTRIAL =   0  T = 458.0328  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  451.355    
+      KODE = 1  NTRIAL =   0  T = 451.3552  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  444.811    
+      KODE = 1  NTRIAL =   0  T = 444.8106  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  438.400    
+      KODE = 1  NTRIAL =   0  T = 438.4005  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  432.124    
+      KODE = 1  NTRIAL =   0  T = 432.1245  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  425.981    
+      KODE = 1  NTRIAL =   0  T = 425.9809  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  419.966    
+      KODE = 1  NTRIAL =   0  T = 419.9661  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  414.075    
+      KODE = 1  NTRIAL =   0  T = 414.0749  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  408.300    
+      KODE = 1  NTRIAL =   0  T = 408.3004  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  402.634    
+      KODE = 1  NTRIAL =   0  T = 402.6344  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  397.067    
+      KODE = 1  NTRIAL =   0  T = 397.0674  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  391.589    
+      KODE = 1  NTRIAL =   0  T = 391.5892  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  386.189    
+      KODE = 1  NTRIAL =   0  T = 386.1889  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  380.855    
+      KODE = 1  NTRIAL =   0  T = 380.8549  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    9     TEMP =  375.575    
+      KODE = 1  NTRIAL =   0  T = 375.5751  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    9     TEMP =  370.337    
+      KODE = 1  NTRIAL =   0  T = 370.3366  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    8     TEMP =  365.126    
+      KODE = 1  NTRIAL =   0  T = 365.1257  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    7     TEMP =  359.928    
+      KODE = 1  NTRIAL =   0  T = 359.9284  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    6     TEMP =  354.731    
+      KODE = 1  NTRIAL =   0  T = 354.7311  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    6     TEMP =  349.521    
+      KODE = 1  NTRIAL =   0  T = 349.5214  P = 2.999556E+07  V =  1.00000      Q =  0.00000    
+
+      BEGIN HOT-TQCURVE  INLET   
+      NO. TEMP ITER =   12     TEMP =  542.882    
+      KODE = 1  NTRIAL =   0  T = 542.8823  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  533.386    
+      KODE = 1  NTRIAL =   0  T = 533.3865  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  523.885    
+      KODE = 1  NTRIAL =   0  T = 523.8855  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  514.383    
+      KODE = 1  NTRIAL =   0  T = 514.3828  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  504.883    
+      KODE = 1  NTRIAL =   0  T = 504.8827  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  495.390    
+      KODE = 1  NTRIAL =   0  T = 495.3899  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  485.910    
+      KODE = 1  NTRIAL =   0  T = 485.9101  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  476.450    
+      KODE = 1  NTRIAL =   0  T = 476.4498  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  467.017    
+      KODE = 1  NTRIAL =   0  T = 467.0167  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  457.620    
+      KODE = 1  NTRIAL =   0  T = 457.6199  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  448.270    
+      KODE = 1  NTRIAL =   0  T = 448.2698  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  438.979    
+      KODE = 1  NTRIAL =   0  T = 438.9786  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   12     TEMP =  429.761    
+      KODE = 1  NTRIAL =   0  T = 429.7606  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  420.632    
+      KODE = 1  NTRIAL =   0  T = 420.6320  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  411.612    
+      KODE = 1  NTRIAL =   0  T = 411.6122  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  402.723    
+      KODE = 1  NTRIAL =   0  T = 402.7233  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   11     TEMP =  393.991    
+      KODE = 1  NTRIAL =   0  T = 393.9906  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  385.443    
+      KODE = 1  NTRIAL =   0  T = 385.4434  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =   10     TEMP =  377.115    
+      KODE = 1  NTRIAL =   0  T = 377.1152  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    9     TEMP =  369.044    
+      KODE = 1  NTRIAL =   0  T = 369.0439  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    8     TEMP =  361.272    
+      KODE = 1  NTRIAL =   0  T = 361.2720  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+      NO. TEMP ITER =    7     TEMP =  353.847    
+      KODE = 1  NTRIAL =   0  T = 353.8469  P = 7.883225E+06  V =  1.00000      Q =  0.00000    
+
+      BEGIN COLD-TQCURVE INLET   
+
+      BEGIN HOT-TQCURVE  INLET   
+      END HEATX TQ-CURVE CALCULATIONS FOR BLOCK X1      
+
+      GENERATING RESULTS FOR UOS BLOCK A1       MODEL: HEATER                     TIME =      0.02
+
+      GENERATING RESULTS FOR UOS BLOCK H1       MODEL: HEATER                     TIME =      0.02
+
+      GENERATING RESULTS FOR UOS BLOCK A2       MODEL: HEATER                     TIME =      0.02
+
+      GENERATING RESULTS FOR UOS BLOCK H2       MODEL: HEATER                     TIME =      0.02
+
+      BEGIN HEATX TQ-CURVE REPORT FOR BLOCK X1      
+
+      BEGIN COLD-TQCURVE INLET   
+
+      BEGIN HOT-TQCURVE  INLET   
+      END HEATX TQ-CURVE REPORT FOR BLOCK X1      
+
+ Report Writer entered                                                            Time =     38.77
+
+      BEGIN HEATX TQ-CURVE REPORT FOR BLOCK X1      
+
+      BEGIN COLD-TQCURVE INLET   
+
+      BEGIN HOT-TQCURVE  INLET   
+      END HEATX TQ-CURVE REPORT FOR BLOCK X1      
+
+ Results generated                                                                Time =     38.77
+
+ Report Writer entered                                                            Time =     38.85
+
+      BEGIN HEATX TQ-CURVE REPORT FOR BLOCK X1      
+
+      BEGIN COLD-TQCURVE INLET   
+
+      BEGIN HOT-TQCURVE  INLET   
+      END HEATX TQ-CURVE REPORT FOR BLOCK X1      
+
+ Results generated                                                                Time =     38.87
 
 RUN SAVED
 
@@ -172,4 +554,4 @@ RUN SAVED
  TERMINAL ERRORS      0        0         0
    SEVERE ERRORS      0        0         0
           ERRORS      0        0         0
-        WARNINGS      0        0         1
+        WARNINGS      0        0         4
